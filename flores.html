@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Fernanda 🌼</title>
+<style>
+  :root{
+    --cream:#FFF7E6;
+    --butter:#FFE083;
+    --petal:#FFC93C;
+    --stem:#5C7A4F;
+    --leaf:#7A9B5E;
+    --ink:#4A3520;
+    --blush:#FF8FA3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background: linear-gradient(180deg, var(--cream) 0%, #FFF1CC 60%, #FFE9B8 100%);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  .field{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    height:120px;
+    background: linear-gradient(180deg, transparent, #E7D28A);
+    z-index:0;
+  }
+
+  .sky-flower{
+    position:fixed;
+    z-index:0;
+    opacity:0.85;
+    animation: drift linear infinite;
+  }
+  @keyframes drift{
+    from{ transform: translateY(-10vh) rotate(0deg); }
+    to{ transform: translateY(110vh) rotate(360deg); }
+  }
+
+  .stage{
+    position:relative;
+    z-index:2;
+    max-width:520px;
+    width:92%;
+    margin:40px auto;
+    text-align:center;
+  }
+
+  .envelope-wrap{
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    user-select:none;
+  }
+
+  .flower-cluster{
+    width:260px;
+    height:260px;
+    position:relative;
+  }
+
+  .glow{
+    position:absolute;
+    inset:-30px;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(255,201,60,0.55) 0%, rgba(255,201,60,0.15) 45%, transparent 70%);
+    animation: pulseGlow 2.6s ease-in-out infinite;
+    z-index:0;
+  }
+  @keyframes pulseGlow{
+    0%, 100% { transform: scale(1); opacity:0.85; }
+    50% { transform: scale(1.15); opacity:1; }
+  }
+
+  .flower{
+    position:absolute;
+    transform-origin:center;
+  }
+
+  .petal-svg{
+    width:100%;
+    height:100%;
+    display:block;
+    position:relative;
+    z-index:1;
+    filter: drop-shadow(0 10px 18px rgba(120,90,20,0.35));
+    animation: swayBloom 4s ease-in-out infinite;
+  }
+  @keyframes swayBloom{
+    0%, 100% { transform: rotate(-2deg) scale(1); }
+    50% { transform: rotate(2deg) scale(1.05); }
+  }
+
+  .sparkle{
+    position:absolute;
+    animation: twinkle 1.8s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%, 100% { opacity:0.2; transform: scale(0.7); }
+    50% { opacity:1; transform: scale(1.2); }
+  }
+
+  .prompt-text{
+    font-size:1.15rem;
+    letter-spacing:0.02em;
+    color:var(--ink);
+    opacity:0.85;
+  }
+
+  .tap-hint{
+    font-size:0.85rem;
+    color:var(--stem);
+    font-style:italic;
+  }
+
+  .card{
+    display:none;
+    position:relative;
+    overflow:visible;
+    background: #FFFDF6;
+    border-radius:18px;
+    padding:36px 30px 40px;
+    box-shadow: 0 20px 50px rgba(120,90,20,0.18);
+    border: 1px solid #F1DFA0;
+    animation: bloom 0.7s ease forwards;
+  }
+  @keyframes bloom{
+    from{ opacity:0; transform: scale(0.85) translateY(20px); }
+    to{ opacity:1; transform: scale(1) translateY(0); }
+  }
+
+  .card.show{ display:block; }
+
+  .deco-flower{
+    position:absolute;
+    z-index:0;
+    opacity:0.9;
+    pointer-events:none;
+  }
+
+  .heading-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    position:relative;
+    z-index:1;
+  }
+
+  .flower-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin:26px auto;
+  }
+  .flower-divider .line{
+    width:44px;
+    height:1px;
+    background:#E9C978;
+  }
+
+  .heading{
+    font-size:1.6rem;
+    margin: 4px 0 4px;
+    color:#8A5A0B;
+    position:relative;
+    z-index:1;
+  }
+
+  .date-tag{
+    font-family: Georgia, serif;
+    font-size:0.85rem;
+    color:var(--stem);
+    margin-bottom:22px;
+    font-style:italic;
+    position:relative;
+    z-index:1;
+  }
+
+  .dedication{
+    font-size:1.08rem;
+    line-height:1.75;
+    text-align:left;
+    color:#4A3520;
+    white-space:pre-line;
+    position:relative;
+    z-index:1;
+  }
+
+  .signature{
+    margin-top:26px;
+    font-size:1.05rem;
+    text-align:right;
+    color:#8A5A0B;
+    font-style:italic;
+    position:relative;
+    z-index:1;
+  }
+
+  .divider{
+    width:60px;
+    height:2px;
+    background: var(--blush);
+    margin: 26px auto;
+    border:none;
+    border-radius:2px;
+  }
+
+  .countdown-box{
+    background: linear-gradient(135deg, #FFF3D0, #FFE9B0);
+    border-radius:14px;
+    padding:20px 16px;
+    margin-top:6px;
+  }
+
+  .countdown-label{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size:0.78rem;
+    letter-spacing:0.04em;
+    color:#8A5A0B;
+    margin-bottom:10px;
+  }
+
+  .countdown-numbers{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .cd-unit{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:52px;
+  }
+  .cd-num{
+    font-size:1.7rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .cd-unit-label{
+    font-size:0.68rem;
+    color:var(--stem);
+    margin-top:2px;
+  }
+
+  .countdown-done{
+    font-family: Georgia, serif;
+    font-size:1.1rem;
+    color:#8A5A0B;
+  }
+
+  .footer-note{
+    margin-top:22px;
+    font-size:0.85rem;
+    color:#9C8256;
+    font-style:italic;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .sky-flower{ animation:none; opacity:0.4; }
+    .card{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="field"></div>
+
+<div class="stage">
+
+  <div class="envelope-wrap" id="opener">
+    <div class="flower-cluster">
+      <div class="glow"></div>
+      <svg class="petal-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(100,100)">
+          <g id="petalsOuter"></g>
+          <g id="petals"></g>
+          <circle r="26" fill="#8A5A0B"/>
+          <circle r="26" fill="url(#g1)"/>
+          <g id="seeds"></g>
+        </g>
+        <defs>
+          <radialGradient id="g1" cx="35%" cy="35%">
+            <stop offset="0%" stop-color="#D68A1F"/>
+            <stop offset="100%" stop-color="#8A5A0B"/>
+          </radialGradient>
+        </defs>
+      </svg>
+      <div id="sparkles"></div>
+    </div>
+    <div class="prompt-text">Para ti, mi amor 🌼</div>
+    <div class="tap-hint">toca la flor</div>
+  </div>
+
+  <div class="card" id="card">
+    <div class="deco-flower" id="decoFlowers"></div>
+
+    <div class="heading">21 de septiembre</div>
+    <div class="date-tag">día de las flores amarillas</div>
+
+    <div class="dedication" id="dedicationText"></div>
+
+    <div class="signature">— Erik</div>
+
+    <div class="flower-divider">
+      <div class="line"></div>
+      <svg width="22" height="22" viewBox="0 0 40 40">
+        <g transform="translate(20,20)">
+          <ellipse cx="0" cy="-10" rx="5" ry="10" fill="#FFC93C" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-10" rx="5" ry="10" fill="#FFC93C" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-10" rx="5" ry="10" fill="#FFC93C" transform="rotate(144)"/>
+          <ellipse cx="0" cy="-10" rx="5" ry="10" fill="#FFC93C" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-10" rx="5" ry="10" fill="#FFC93C" transform="rotate(288)"/>
+          <circle r="5" fill="#8A5A0B"/>
+        </g>
+      </svg>
+      <div class="line"></div>
+    </div>
+
+    <div class="countdown-box">
+      <div class="countdown-label">FALTAN PARA NUESTROS 4 MESES · 28 DE SEPTIEMBRE</div>
+      <div id="countdownArea"></div>
+    </div>
+
+    <div class="footer-note">no está cerca, pero siempre está en mi cabeza</div>
+  </div>
+
+</div>
+
+<script>
+  // Build a fuller sunflower: two layered rings of petals + seed center
+  const petalsOuter = document.getElementById('petalsOuter');
+  const petalsGroup = document.getElementById('petals');
+  const seedsGroup = document.getElementById('seeds');
+
+  const outerCount = 14;
+  for (let i = 0; i < outerCount; i++) {
+    const angle = (360 / outerCount) * i;
+    const petal = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    petal.setAttribute('cx', 0);
+    petal.setAttribute('cy', -70);
+    petal.setAttribute('rx', 14);
+    petal.setAttribute('ry', 38);
+    petal.setAttribute('fill', i % 2 === 0 ? '#FFB627' : '#FFA000');
+    petal.setAttribute('transform', `rotate(${angle})`);
+    petalsOuter.appendChild(petal);
+  }
+
+  const petalCount = 12;
+  const colors = ['#FFDD6B', '#FFC93C'];
+  for (let i = 0; i < petalCount; i++) {
+    const angle = (360 / petalCount) * i + 12;
+    const petal = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    petal.setAttribute('cx', 0);
+    petal.setAttribute('cy', -46);
+    petal.setAttribute('rx', 15);
+    petal.setAttribute('ry', 32);
+    petal.setAttribute('fill', colors[i % 2]);
+    petal.setAttribute('transform', `rotate(${angle})`);
+    petalsGroup.appendChild(petal);
+  }
+
+  for (let i = 0; i < 40; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = Math.random() * 20;
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', Math.cos(a) * r);
+    dot.setAttribute('cy', Math.sin(a) * r);
+    dot.setAttribute('r', 1.4);
+    dot.setAttribute('fill', '#5C3A0E');
+    dot.setAttribute('opacity', '0.5');
+    seedsGroup.appendChild(dot);
+  }
+
+  // Sparkles around the flower
+  const sparkleWrap = document.getElementById('sparkles');
+  const sparklePositions = [
+    {top:'6%', left:'10%'}, {top:'2%', left:'55%'}, {top:'15%', left:'85%'},
+    {top:'50%', left:'2%'}, {top:'60%', left:'92%'}, {top:'88%', left:'20%'},
+    {top:'90%', left:'70%'}, {top:'40%', left:'96%'}
+  ];
+  sparklePositions.forEach((pos, i) => {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.style.top = pos.top;
+    s.style.left = pos.left;
+    s.style.animationDelay = (i * 0.3) + 's';
+    s.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 0 L9.5 6.5 L16 8 L9.5 9.5 L8 16 L6.5 9.5 L0 8 L6.5 6.5 Z" fill="#FFE9A8"/></svg>`;
+    sparkleWrap.appendChild(s);
+  });
+
+  // Floating background flowers (simple daisy shapes)
+  function makeSkyFlower() {
+    const el = document.createElement('div');
+    el.className = 'sky-flower';
+    const size = 14 + Math.random() * 22;
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-5vh';
+    el.style.animationDuration = (10 + Math.random() * 12) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    el.innerHTML = `
+      <svg width="${size}" height="${size}" viewBox="0 0 40 40">
+        <g transform="translate(20,20)">
+          ${[0,72,144,216,288].map(a => `<ellipse cx="0" cy="-10" rx="5" ry="10" fill="#FFC93C" transform="rotate(${a})"/>`).join('')}
+          <circle r="5" fill="#8A5A0B"/>
+        </g>
+      </svg>`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 24000);
+  }
+  for (let i = 0; i < 10; i++) setTimeout(makeSkyFlower, i * 900);
+  setInterval(makeSkyFlower, 2600);
+
+  // Decorative yellow flowers scattered around the card
+  function daisySvg(size, color1, color2) {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 40 40">
+      <g transform="translate(20,20)">
+        <ellipse cx="0" cy="-10" rx="5.5" ry="10" fill="${color1}" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-10" rx="5.5" ry="10" fill="${color1}" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-10" rx="5.5" ry="10" fill="${color1}" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-10" rx="5.5" ry="10" fill="${color1}" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-10" rx="5.5" ry="10" fill="${color1}" transform="rotate(288)"/>
+        <circle r="5.5" fill="${color2}"/>
+      </g>
+    </svg>`;
+  }
+
+  const decoWrap = document.getElementById('decoFlowers');
+  const decoSpots = [
+    { top:'-18px', left:'-18px', size:56, rot:-15 },
+    { top:'-14px', right:'-14px', size:44, rot:20 },
+    { bottom:'-16px', left:'-10px', size:48, rot:10 },
+    { bottom:'-20px', right:'-16px', size:60, rot:-25 },
+    { top:'42%', left:'-22px', size:34, rot:5 },
+    { top:'58%', right:'-20px', size:34, rot:-10 }
+  ];
+  decoSpots.forEach(spot => {
+    const el = document.createElement('div');
+    el.style.position = 'absolute';
+    if (spot.top) el.style.top = spot.top;
+    if (spot.bottom) el.style.bottom = spot.bottom;
+    if (spot.left) el.style.left = spot.left;
+    if (spot.right) el.style.right = spot.right;
+    el.style.transform = `rotate(${spot.rot}deg)`;
+    el.style.zIndex = '0';
+    el.style.opacity = '0.95';
+    el.innerHTML = daisySvg(spot.size, '#FFC93C', '#8A5A0B');
+    decoWrap.appendChild(el);
+  });
+
+  // Dedication text
+  const dedication = `Fernanda, mi amor:
+
+Hoy es 21 de septiembre, el día de las flores amarillas, y aunque no puedo cruzar el estado para dártelas en tus manos, quería encontrar una forma de que sepas que no dejo de pensar en ti ni un solo día.
+
+Llevamos 4 meses, y en ese tiempo he aprendido que la distancia no hace más que enseñarme cuánto te quiero: extraño tu risa, extraño tus mensajes de buenos días, extraño simplemente estar contigo.
+
+Cada mañana que despierto sabiendo que estás en algún lugar pensando en mí también, se me hace más fácil el día. Eres de las cosas más bonitas que me han pasado, y aunque hoy solo pueda mandarte una flor de pantalla, quiero que sepas que sí existe una llena de cosas por decirte: que te amo, que te extraño, y que las ganas de verte no se me quitan.
+
+Feliz día de las flores amarillas, mi vida. Esto es solo un pedacito de lo que siento por ti.`;
+  document.getElementById('dedicationText').textContent = dedication;
+
+  // Reveal card
+  document.getElementById('opener').addEventListener('click', function () {
+    this.style.display = 'none';
+    document.getElementById('card').classList.add('show');
+    startCountdown();
+  }, { once: true });
+
+  // Countdown to Sept 28 (4-month anniversary), same year as "today" in the visitor's browser
+  function startCountdown() {
+    const area = document.getElementById('countdownArea');
+
+    function render() {
+      const now = new Date();
+      let year = now.getFullYear();
+      let target = new Date(year, 8, 28, 0, 0, 0); // month 8 = September
+      if (target < now) {
+        target = new Date(year + 1, 8, 28, 0, 0, 0);
+      }
+      const diff = target - now;
+
+      if (diff <= 0) {
+        area.innerHTML = `<div class="countdown-done">¡Hoy cumplimos 4 meses! 🌼</div>`;
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      area.innerHTML = `
+        <div class="countdown-numbers">
+          <div class="cd-unit"><div class="cd-num">${d}</div><div class="cd-unit-label">días</div></div>
+          <div class="cd-unit"><div class="cd-num">${h}</div><div class="cd-unit-label">hrs</div></div>
+          <div class="cd-unit"><div class="cd-num">${m}</div><div class="cd-unit-label">min</div></div>
+          <div class="cd-unit"><div class="cd-num">${s}</div><div class="cd-unit-label">seg</div></div>
+        </div>`;
+    }
+
+    render();
+    setInterval(render, 1000);
+  }
+</script>
+
+</body>
+</html>
